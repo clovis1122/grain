@@ -125,16 +125,21 @@ export let fromList = (list) => {
   init(listLength(list, 0), next)
 }
 
-# TODO: This should use recursion when we can pattern match arrays
-export let contains = (search, array) => {
-  let len = length(array);
-  let mut index = 0;
-  let mut found = false;
-  while ((!found) && (index < len)) {
-    found = (array[index] == search);
-    index += 1;
+let rec containsInRange = (search, start, stop, array) => {
+  if (start == stop) {
+    false
+  } else {
+    if (array[start] == search) {
+      true
+    } else {
+      containsInRange(search, start+1, stop, array)
+    }
   }
-  found
+}
+
+export let contains = (search, array) => {
+  let len = length(array)
+  containsInRange(search, 0, len, array)
 }
 
 export let find = (fn, array) => {
